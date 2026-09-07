@@ -17,11 +17,11 @@ LATEX_LIBS_DIR       := latex-libs
 LATEX_LIBS_SSH_URL   := git@github.com:MatthieuPerrin/Latex-libs.git
 LATEX_LIBS_HTTPS_URL := https://github.com/MatthieuPerrin/Latex-libs.git
 
-# TD-corrections library (local clone + TEXINPUTS)
-CORRECTIONS_REPO := git@github.com:ProgrammationMultiThread/Corrections.git
-CORRECTIONS_DIR  ?= ../Corrections
-CORR_REPO_SUBDIR ?= tex/TD
-CORR_LOCAL_DIR   ?= src/corrections
+# # TD-corrections library (local clone + TEXINPUTS)
+# CORRECTIONS_REPO := git@github.com:ProgrammationMultiThread/Corrections.git
+# CORRECTIONS_DIR  ?= ../Corrections
+# CORR_REPO_SUBDIR ?= tex/TD
+# CORR_LOCAL_DIR   ?= src/corrections
 
 # Path separator (Windows vs Unix)
 ifeq ($(OS),Windows_NT)
@@ -41,13 +41,13 @@ TD_MAIN := PCMT
 TPs := concurrence webgrep mandelbrot transactions
 
 # generated PDFs
-PDFS := $(DOCSDIR)/td.pdf $(TPs:%=$(DOCSDIR)/tp-%.pdf)
+PDFS := $(DOCSDIR)/td.pdf $(DOCSDIR)/td-correction.pdf $(TPs:%=$(DOCSDIR)/tp-%.pdf)
 
 # -------------------------------
 # Main targets
 # -------------------------------
 
-.PHONY: all td correction both tp tp-% deps depscorr update clean cleanall help FORCE
+.PHONY: all td correction both tp tp-% deps update clean cleanall help FORCE
 
 all: $(PDFS)
 
@@ -70,7 +70,7 @@ $(DOCSDIR)/td.pdf: $(SRCDIR_TD)/$(TD_MAIN).tex FORCE | $(BUILDDIR) $(DOCSDIR) de
 	$(PDFLATEX) $(PDFLATEX_FLAGS) -jobname=td $<
 	@mv -f "$(BUILDDIR)/td.pdf" "$@"
 
-$(DOCSDIR)/td-correction.pdf: $(SRCDIR_TD)/$(TD_MAIN).tex FORCE | $(BUILDDIR) $(DOCSDIR) deps depscorr
+$(DOCSDIR)/td-correction.pdf: $(SRCDIR_TD)/$(TD_MAIN).tex FORCE | $(BUILDDIR) $(DOCSDIR) deps
 	@echo "\def\CORRECTION{}\input{$(SRCDIR_TD)/$(TD_MAIN).tex}" > "$(BUILDDIR)/td-correction.tex"
 	$(PDFLATEX) $(PDFLATEX_FLAGS) -jobname=td-correction "$(BUILDDIR)/td-correction.tex"
 	$(PDFLATEX) $(PDFLATEX_FLAGS) -jobname=td-correction "$(BUILDDIR)/td-correction.tex"
@@ -81,6 +81,12 @@ $(DOCSDIR)/tp-%.pdf: $(SRCDIR_TP)/%.tex FORCE | $(BUILDDIR) $(DOCSDIR) deps
 	$(PDFLATEX) $(PDFLATEX_FLAGS) -jobname=tp-$* $<
 	$(PDFLATEX) $(PDFLATEX_FLAGS) -jobname=tp-$* $<
 	@mv -f "$(BUILDDIR)/tp-$*.pdf" "$@"
+
+$(DOCSDIR)/tp-%-correction.pdf: $(SRCDIR_TP)/%.tex FORCE | $(BUILDDIR) $(DOCSDIR) deps
+	@echo "\def\CORRECTION{}\input{$(SRCDIR_TD)/$(TD_MAIN).tex}" > "$(BUILDDIR)/tp-$*-correction.tex"
+	$(PDFLATEX) $(PDFLATEX_FLAGS) -jobname=tp-$*-correction "$(BUILDDIR)/tp-$*-correction.tex"
+	$(PDFLATEX) $(PDFLATEX_FLAGS) -jobname=tp-$*-correction "$(BUILDDIR)/tp-$*-correction.tex"
+	@mv -f "$(BUILDDIR)/tp-$*-correction.pdf" "$@"
 
 FORCE:
 
@@ -96,19 +102,6 @@ deps:
 	    || git clone --depth 1 "$(LATEX_LIBS_HTTPS_URL)" "$(LATEX_LIBS_DIR)" ); \
 	fi
 
-# Ensure local clone of Corrections exists (used as a prerequisite by build rules)
-depscorr:
-	@set -e; { \
-	  if [ ! -d "$(CORRECTIONS_DIR)/.git" ]; then \
-	    echo ">>> Cloning $(CORRECTIONS_REPO) into $(CORRECTIONS_DIR)"; \
-	    git clone --depth 1 --filter=blob:none --sparse "$(CORRECTIONS_REPO)" "$(CORRECTIONS_DIR)"; \
-	    git -C "$(CORRECTIONS_DIR)" sparse-checkout init --cone; \
-	    git -C "$(CORRECTIONS_DIR)" sparse-checkout set --cone "$(CORR_REPO_SUBDIR)"; \
-	  fi; \
-	  rm -rf "$(CORR_LOCAL_DIR)"; \
-	  ln -sfn "$(CURDIR)/$(CORRECTIONS_DIR)/$(CORR_REPO_SUBDIR)/" "$(CORR_LOCAL_DIR)"; \
-	}
-
 # Update both the main repo and the local dependency clone
 update:
 	@echo ">>> Updating main repository"; \
@@ -119,11 +112,6 @@ update:
 	else \
 	  echo ">>> latex-libs not present; run 'make deps' when online."; \
 	fi; \
-	if [ -d "$(CORRECTIONS_DIR)/.git" ]; then \
-	  echo ">>> Updating $(CORRECTIONS_DIR)"; \
-	  git -C "$(CORRECTIONS_DIR)" fetch -q --depth 1 origin; \
-	  git -C "$(CORRECTIONS_DIR)" reset -q --hard FETCH_HEAD; \
-	fi
 
 # -------------------------------
 # Create folders
@@ -153,7 +141,7 @@ help:
 	@echo "Usage:"
 	@echo "  make            – build all PDFs (td + all tps)"
 	@echo "  make td         – build docs/td.pdf"
-	@echo "  make correction – build docs/td-correction.pdf (requires private repo access)"
+	@echo "  make correction – build docs/td-correction.pdf"
 	@echo "  make tp         – build all tp PDFs"
 	@echo "  make webgrep    – build docs/tp-webgrep.pdf (same for concurrence/mandelbrot/transactions)"
 	@echo "  make tp-webgrep – same as above"

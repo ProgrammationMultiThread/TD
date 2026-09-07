@@ -1,7 +1,5 @@
 \documentclass{td}
 
-\usepackage{src/sty/config}
-
 \codeUE{XLG4IU020}
 \intituleUE{Programmation Concurrente en Multi-Threads}
 \cursus{M1 ALMA \& Smart Computing}
@@ -14,12 +12,23 @@
 \typeTP[4]
 \title{Mémoire transactionnelle logicielle}
 
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb, mathrsfs, stmaryrd}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{graphicx}
+
+\usepackage{pdfpages}
 \hypersetup{
   pdftitle  = {TP 4 - Mémoire transactionnelle logicielle},
   pdfauthor = {Matthieu Perrin},
   pdfsubject  = {TP de M1 du cours Programmation Concurrente en Multi-Threads},
   pdfkeywords = {concurrence, TL2, transactions, }
 }
+
+\PassOptionsToPackage{boxruled,vlined,linesnumbered}{algorithm2e}
+\usepackage{algos}
 
 \SetKw{Var}{var}
 \SetKw{Op}{operation}

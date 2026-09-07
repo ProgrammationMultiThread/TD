@@ -6,11 +6,25 @@
   \documentclass[livret]{td}
 \fi
 
-\usepackage{src/sty/config}
+\typeTD
+
+\makeatletter
+\def\input@path{{src/exercises}}
+\makeatother
+
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amssymb, mathrsfs, stmaryrd}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{graphicx}
+
+\PassOptionsToPackage{boxruled,vlined,linesnumbered}{algorithm2e}
+\usepackage{algos}
 
 \codeUE{XLG4IU020}
-
 \intituleUE[Programmation Concurrente en Multi-Threads]{Programmation Concurrente \\ en Multi-Threads}
+\typeTD
 
 \author[Matthieu Perrin]{
   Matthieu \textsc{Perrin}\\
@@ -34,8 +48,7 @@
   \end{tabular}
 }
 
-\typeTD
-
+\usepackage{pdfpages}
 \hypersetup{
   pdftitle  = {Programmation Concurrente en Multi-Threads},
   pdfauthor = {Matthieu Perrin},

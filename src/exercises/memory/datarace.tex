@@ -11,7 +11,7 @@
   On suppose qu'aucun autre thread n'intervient et que les réveils intempestifs possibles de \lstinline{wait()} sont correctement
   gérés par la boucle \lstinline{while}. On raisonne sous l'hypothèse de \emph{cohérence séquentielle} pour les questions 1–3.
 
-  \begin{lstlisting}
+  \begin{lstlisting}[numbers=left]
     final class Program {
       static final Object o = new Object();
       static int x = 0;

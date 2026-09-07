@@ -5,7 +5,7 @@
 \begingroup
 
 \begin{exercice}[Le savant fou%
-  \footnote{Inspiration : M. Herlihy \& N. Shavit. \emph{The Art of Multiprocessor Programming}. Morgan Kaufmann (2008)}]
+    \footnote{Inspiration : M. Herlihy \& N. Shavit. \emph{The Art of Multiprocessor Programming}. Morgan Kaufmann (2008)}]
   \label{exo:introduction/mad_scientist}
 
   En visite pédagogique dans un laboratoire, vous et le reste de votre groupe êtes 
@@ -23,20 +23,61 @@
 
   Hypothèses implicites :
   \begin{itemize}
-    \item La lumière est éteinte au départ.
-    \item L'interrupteur est binaire (allumé/éteint).
-    \item La lumière est invisible depuis l'extérieur de la pièce,
-      et il n'y a aucun autre moyen de communication entre les étudiants.
+  \item La lumière est éteinte au départ.
+  \item L'interrupteur est binaire (allumé/éteint).
+  \item La lumière est invisible depuis l'extérieur de la pièce,
+    et il n'y a aucun autre moyen de communication entre les étudiants.
   \end{itemize}
   
   \begin{question}
-    \item Énoncez précisément ce que doit garantir une stratégie réussie.
-    \item Proposez une stratégie et justifiez brièvement en quoi elle satisfait l'exigence précédente.
-    \item Reprenez la question précédente, sans l'hypothèse sur l'état initial de la lumière.
-    \item Reprenez les deux premières questions, sans l'hypothèse que le tirage est uniforme. À la place, on suppose
-      que si personne ne déclare que tout le monde a visité la pièce, chaque étudiant est sélectionné une infinité de fois
-      (pas nécessairement à intervalles bornés). 
+  \item Énoncez précisément ce que doit garantir une stratégie réussie.
   \end{question}
+  \begin{correction}
+    Une stratégie correcte doit vérifier :
+    \begin{description}
+    \item[Sûreté.] Si un étudiant déclare \og Nous avons tous visité la pièce \fg,
+      alors tous les étudiants l'ont effectivement visitée.
+    \item[Vivacité.] Avec probabilité 1, un étudiant finira par pouvoir faire cette déclaration.
+    \end{description}
+  \end{correction}
+  
+  \begin{question}
+  \item Proposez une stratégie et justifiez brièvement en quoi elle satisfait l'exigence précédente.
+  \end{question}
+  \begin{correction}
+    Une stratégie possible consiste à désigner un étudiant comme \emph{délégué} :
+    \begin{itemize}
+    \item Chaque étudiant non délégué allume la lumière la première fois qu'il entre
+      dans la pièce et la trouve éteinte, puis ne la rallume plus jamais.
+    \item Chaque fois que le délégué entre dans la pièce et voit la lumière allumée,
+      il l'éteint et incrémente un compteur local.
+    \item Lorsque son compteur atteint $n-1$, il déclare que tous les étudiants ont visité la pièce.
+    \end{itemize}
+    Cette stratégie garantit la sûreté (le délégué ne peut compter qu'un allumage par étudiant)
+    et la vivacité presque sûrement (le tirage aléatoire finit par sélectionner chaque étudiant
+    au moins une fois alors que la lumière est éteinte).
+  \end{correction}
+  
+  \begin{question}
+  \item Reprenez la question précédente, sans l'hypothèse sur l'état initial de la lumière.
+  \end{question}
+  \begin{correction}
+    Si l'état initial de la lumière est inconnu,
+    le protocole peut être adapté en demandant au délégué d'ignorer le premier allumage observé
+    (pour éliminer l'incertitude sur l'état de départ).
+  \end{correction}
+  
+  \begin{question}
+  \item Reprenez les deux premières questions, sans l'hypothèse que le tirage est uniforme. À la place, on suppose
+    que si personne ne déclare que tout le monde a visité la pièce, chaque étudiant est sélectionné une infinité de fois
+    (pas nécessairement à intervalles bornés). 
+  \end{question}
+  \begin{correction}
+    Si le tirage n'est pas uniforme mais seulement équitable
+    (chaque étudiant est choisi une infinité de fois, sans borne sur l'intervalle entre deux visites),
+    la stratégie reste correcte : la sûreté n'est pas affectée,
+    et la vivacité est renforcée et devient déterministe : un étudiant finira par pouvoir faire cette déclaration.
+  \end{correction}
 
 \end{exercice}
 
