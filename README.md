@@ -1,112 +1,125 @@
-# Concurrent Multithreaded Programming - TD
+# ProgrammationMultiThread/TD
 
-This repository contains modular and reusable teaching materials used to build the exercise sheets
-for the Concurrent Multithreaded Programming course at Nantes University. 
-See the [main organization](https://github.com/ProgrammationMultiThread/) for more information on the course and additional resources.
+This repository contains modular and reusable teaching materials used to build exercise sheets, practical assignments, and their corrections for the Concurrent Multithreaded Programming course at Nantes Université.
 
----
+See the [course organization](https://github.com/ProgrammationMultiThread/) for the course description and additional resources.
 
-## Structure
+## Repository structure
 
-```
-├── LICENSE.md            # License CC-BY-SA 4.0  
-├── Makefile              # Automatic compilation  
-├── README.md             # This file  
-├── build/                # Temporary files used during compilation  
-├── latex-libs/           # Dependency from [latex-libs](https://github.com/MatthieuPerrin/latex-libs)  
-├── docs/                 # Compiled PDFs (final course sheets)  
-├── src/                  # LaTeX source files  
-│   ├── TD/               # Main document files for the exercise sheets  
-│   ├── TP/               # Main document files for the practical section sheets  
-│   ├── corrections/      # Dependency from [Corrections](https://github.com/ProgrammationMultiThread/Corrections)  (private repository, non required)  
-│   ├── exercises/        # Individual exercises organized by topics (one file per exercise)
-│   ├── img/              # Images used in the exercises  
-│   └── sty/              # Style files  
+```text
+├── LICENSE.txt               # CC BY-SA 4.0 legal text
+├── Makefile                  # Build, configuration, and maintenance commands
+├── README.md                 # This file
+├── build/                    # Temporary LaTeX compilation files
+├── docs/                     # Generated PDFs
+├── latex-libs/               # Automatically downloaded LaTeX dependency
+└── src/
+    ├── courses/              # Course drivers
+    ├── archives/             # Optional archived course drivers
+    ├── exercises/            # Reusable exercises organized by topic
+    └── img/                  # Redistributable images used in the documents
 ```
 
----
+Every `.tex` file directly inside a subdirectory of courses is treated as a document driver. Files in `src/exercises/` can be included directly by name.
+
+## Requirements
+
+Compilation requires:
+
+- GNU Make;
+- a LaTeX distribution providing `pdflatex` and the packages used by the documents;
+- an internet connection for the first build.
 
 ## Compilation
 
-To build all exercise sheets (the TD booklet and all TP subjects):
+Build every document and its correction for the current course:
 
 ```bash
 make
 ```
 
-This command produces:
+For a `td.tex` driver in the selected course, this produces:
 
-```
-docs/td.pdf
-docs/tp-concurrence.pdf
-docs/tp-webgrep.pdf
-docs/tp-mandelbrot.pdf
-docs/tp-transactions.pdf
+```text
+docs/<course>/td.pdf
+docs/<course>/correction/td.pdf
 ```
 
-You can also compile a single document:
+The main build targets are:
 
 ```bash
-make td          # Builds the TD booklet (docs/td.pdf)
-make webgrep     # Builds docs/tp-webgrep.pdf
-make tp-webgrep  # Same as above
-make tp          # Builds all TP sheets
+make main             # Build all documents for the current course
+make correction       # Build all corrections for the current course
+make td               # Build both variants of td.tex
+make td-main          # Build only the document, with one LaTeX pass
+make td-correction    # Build only the correction, with one LaTeX pass
+make all-courses      # Build all current courses, excluding archives
 ```
 
-If you have access to the private  
-[ProgrammationMultiThread/Corrections](https://github.com/ProgrammationMultiThread/Corrections) repository:
+The aggregate targets use two LaTeX passes. The document-specific `-main` and `-correction` targets use one pass for faster incremental work.
+
+To remove generated files:
 
 ```bash
-make correction  # Builds docs/td-correction.pdf
-make both        # Builds both docs/td.pdf and docs/td-correction.pdf
+make clean            # Remove temporary compilation files
+make cleanall         # Also remove generated PDFs
 ```
 
-The correction version includes hidden solutions and requires an SSH key with access to the private repo.
+## Course selection and reuse
 
----
+List the available courses and document drivers:
+
+```bash
+make list
+```
+
+Select a course persistently for local work:
+
+```bash
+make configure COURSE=course-name
+```
+
+For a one-off build without changing the persistent selection:
+
+```bash
+make COURSE=course-name td
+```
+
+To create another course variant, copy an existing course directory and edit its drivers:
+
+```bash
+cp -r src/courses/existing-course src/courses/new-course
+make configure COURSE=new-course
+```
+
+Course directories under `src/archives/` can be selected in exactly the same way. The `src/archives/` directory is optional, is never created automatically, and is excluded from `make all-courses`.
 
 ## Dependencies
 
-The Makefile automatically manages required dependencies:
+The documents rely on styles from the [latex-libs](https://github.com/MatthieuPerrin/latex-libs) project. On the first build, the Makefile automatically clones this dependency into `latex-libs/`. Subsequent builds can run offline.
 
-- [latex-libs](https://github.com/MatthieuPerrin/latex-libs) – cloned on first build (requires Internet only once).
-- [Corrections](https://github.com/ProgrammationMultiThread/Corrections) – optional private repo (for correction versions).
-
-To update all dependencies:
+Update both this repository and the local dependency with:
 
 ```bash
 make update
 ```
 
----
-
 ## License
 
-All **LaTeX sources, exercise sheets, and related teaching materials** in this repository
-are distributed under the **Creative Commons Attribution–ShareAlike 4.0 International** (CC BY-SA 4.0) license.  
+Except where otherwise stated, the original LaTeX sources and teaching materials in this repository are distributed under the [Creative Commons Attribution–ShareAlike 4.0 International license](LICENSE.txt).
 
-- The full legal text of this license is available in [`LICENSE.txt`](LICENSE.txt).  
-- Detailed attributions, image credits, and cross-repository licensing notes
-  are provided in the [organization-wide license file](https://github.com/ProgrammationMultiThread/.github/blob/main/LICENSE.md).
+Third-party materials, images, code excerpts, attribution requirements, and exceptions are documented in the [organization-wide licensing notice](https://github.com/ProgrammationMultiThread/.github/blob/main/LICENSE.md).
 
-This license applies only to **original educational materials** created for the course.
-Code snippets and external resources may have their own specific licenses
-as indicated in the global attribution file.
+## Contributions
 
-### Suggested attribution
+Contributions are welcome. In particular, you may propose corrections, improve existing exercises or visuals, add new material, or translate existing content.
 
-> *"Exercises and materials from the course **Programmation Concurrente en Multi-Threads** —  
-> © 2025 Matthieu Perrin, licensed under CC BY-SA 4.0."*
+Please follow these guidelines:
 
----
+- keep reusable exercises in `src/exercises/`, preferably one exercise per file;
+- do not commit generated PDFs or files from `build/` and `latex-libs/`;
+- ensure that contributed material is original or compatible with the repository license;
+- provide the source, author, and licensing information for any third-party material;
+- verify the relevant build targets before submitting a pull request.
 
-## Contributing
-
-Each exercise is in a separate file, making it easy to reuse or improve specific parts. You can:
-- Propose new exercises
-- Improve existing content or visuals
-- Translate to other languages
-
-Use pull requests to suggest changes.
-For significant changes, please open an issue first to discuss your ideas.
-
+For substantial changes, please open an issue before starting the work.

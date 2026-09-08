@@ -1,14 +1,9 @@
 # LaTeX compilation files and folders
-build/
-docs/*.pdf
-
-# External dependency
-latex-libs/
-src/corrections
-src/corrections/
-
-# Configuration files
-.current_course.mk
+/.current_course.mk
+/latex-libs/
+/build/
+/docs/*
+!/docs/.nojekyll
 
 # Auxiliary LaTeX Files 
 *.aux
