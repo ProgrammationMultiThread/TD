@@ -3,49 +3,12 @@
 
 \documentclass[livret]{td}
 
+\usepackage{src/courses/pcmt/config}
+
 \typeTD
 
-\makeatletter
-\def\input@path{{src/exercises}}
-\makeatother
 
-\usepackage[T1]{fontenc}
-\usepackage[hidelinks]{hyperref}
-\usepackage{amsmath,amssymb, mathrsfs, stmaryrd}
-\usepackage{url}
-\usepackage{listings}
-\usepackage{graphicx}
 
-\PassOptionsToPackage{boxruled,vlined,linesnumbered}{algorithm2e}
-\usepackage{algos}
-
-\codeUE{XLG4IU020}
-\intituleUE[Programmation Concurrente en Multi-Threads]{Programmation Concurrente \\ en Multi-Threads}
-\typeTD
-
-\author[Matthieu Perrin]{
-  Matthieu \textsc{Perrin}\\
-  Nantes Université\\
-  Laboratoire des Sciences du Numérique de Nantes \\
-  UMR CNRS 6004\\
-  Bureau 410, bâtiment 34 \\
-  \url{matthieu.perrin@univ-nantes.fr}\\
-}
-
-\institution{Nantes Université}
-
-\logo{src/img/logoUN.png}
-
-\cursus[M1 ALMA \& Smart Computing]{
-  \begin{tabular}[b]{l}
-    UFR Sciences et Techniques\\
-    Master en Informatique\\
-    Première année\\
-    Parcours ALMA \& Smart Computing\\
-  \end{tabular}
-}
-
-\usepackage{pdfpages}
 \hypersetup{
   pdftitle  = {Programmation Concurrente en Multi-Threads},
   pdfauthor = {Matthieu Perrin},
@@ -58,40 +21,40 @@
 \maketitlepage
 
 \session{Du parallélisme à la concurrence}
-\inputexercise{introduction/amdahl}
-\inputexercise{introduction/matrix}
-\inputexercise{introduction/asynchronous}
+\input{parallelism/amdahl}
+\input{parallelism/matrix}
+\input{parallelism/asynchronous}
 \sessionappendix
-\inputexercise{introduction/mad}
+\input{parallelism/mad}
 
 \session{Synchronisation par verrous}
-\inputexercise{blocking/philosophers}
-\inputexercise{blocking/bank}
-\inputexercise{blocking/pipeline}
+\input{blocking/philosophers}
+\input{blocking/bank}
+\input{blocking/pipeline}
 \sessionappendix
-\inputexercise{blocking/tree}
+\input{blocking/tree}
 
 \session{Moniteurs de synchronisation}
-\inputexercise{monitors/stack}
-\inputexercise{monitors/unisex}
-\inputexercise{monitors/threadpool}
+\input{monitors/stack}
+\input{monitors/unisex}
+\input{monitors/threadpool}
 \sessionappendix
-\inputexercise{monitors/barrier}
-\inputexercise{monitors/savages}
-\inputexercise{monitors/go}
+\input{monitors/barrier}
+\input{monitors/savages}
+\input{monitors/go}
 
 \session{Le modèle mémoire de Java}
-\inputexercise{memory/volatile}
-\inputexercise{memory/singleton}
+\input{volatile/volatile}
+\input{volatile/singleton}
 \newpage
-\inputexercise{memory/datarace}
+\input{volatile/datarace}
 
 \session{Algorithmes d'exclusion mutuelle}
-\inputexercise{locks/filter}
-\inputexercise{locks/reentrance}
-\inputexercise{locks/getAndIncrement}
+\input{locks/filter}
+\input{locks/reentrance}
+\input{locks/getAndIncrement}
 \sessionappendix
-\inputexercise{locks/readwrite}
+\input{locks/readwrite}
 
 \end{document}
 

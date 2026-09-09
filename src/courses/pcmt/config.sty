@@ -1,0 +1,47 @@
+% SPDX-License-Identifier: CC-BY-SA-4.0
+% Author: Matthieu Perrin
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{config}[2026/09/09 Configuration of the Multithread Concurrent Programming exercise booklet]
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage[hidelinks]{hyperref}
+\RequirePackage{amsmath,amssymb, mathrsfs, stmaryrd}
+\RequirePackage{pdfpages}
+\RequirePackage{url}
+\RequirePackage{listings}
+\RequirePackage{graphicx}
+
+\PassOptionsToPackage{boxruled,vlined,linesnumbered}{algorithm2e}
+\RequirePackage{algos}\AlgoEnglish
+\RequirePackage{distributed}
+
+\newcommand\eqdef{\stackrel{\text{def}}{=}}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Théorème}
+
+\codeUE{XLG4IU020}
+\intituleUE[Programmation Concurrente en Multi-Threads]{Programmation Concurrente \\ en Multi-Threads}
+\institution{Nantes Université}
+\logo{src/img/logoUN.png}
+
+\author[Matthieu Perrin]{
+  Matthieu \textsc{Perrin}\\
+  Nantes Université\\
+  Laboratoire des Sciences du Numérique de Nantes \\
+  UMR CNRS 6004\\
+  Bureau 410, bâtiment 34 \\
+  \url{matthieu.perrin@univ-nantes.fr}\\
+}
+
+\cursus[M1 ALMA \& Smart Computing]{
+  \begin{tabular}[b]{l}
+    UFR Sciences et Techniques\\
+    Master en Informatique\\
+    Première année\\
+    Parcours ALMA \& Smart Computing\\
+  \end{tabular}
+}
+
+
+\endinput

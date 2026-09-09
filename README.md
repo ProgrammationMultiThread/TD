@@ -1,8 +1,10 @@
 # ProgrammationMultiThread/TD
 
-This repository contains modular and reusable teaching materials used to build exercise sheets, practical assignments, and their corrections for the Concurrent Multithreaded Programming course at Nantes Université.
+> **This repository is archived and no longer maintained.**
 
-See the [course organization](https://github.com/ProgrammationMultiThread/) for the course description and additional resources.
+The teaching materials for the **Distributed Programming** course at Nantes Université have moved to the [`DistributedComputing/CM`](https://github.com/DistributedComputing/CM) repository, under `src/courses/pcmt/`.
+
+See the [DistributedComputing organization](https://github.com/DistributedComputing) for the current course materials and related resources.
 
 ## Repository structure
 
@@ -109,17 +111,3 @@ make update
 Except where otherwise stated, the original LaTeX sources and teaching materials in this repository are distributed under the [Creative Commons Attribution–ShareAlike 4.0 International license](LICENSE.txt).
 
 Third-party materials, images, code excerpts, attribution requirements, and exceptions are documented in the [organization-wide licensing notice](https://github.com/ProgrammationMultiThread/.github/blob/main/LICENSE.md).
-
-## Contributions
-
-Contributions are welcome. In particular, you may propose corrections, improve existing exercises or visuals, add new material, or translate existing content.
-
-Please follow these guidelines:
-
-- keep reusable exercises in `src/exercises/`, preferably one exercise per file;
-- do not commit generated PDFs or files from `build/` and `latex-libs/`;
-- ensure that contributed material is original or compatible with the repository license;
-- provide the source, author, and licensing information for any third-party material;
-- verify the relevant build targets before submitting a pull request.
-
-For substantial changes, please open an issue before starting the work.
